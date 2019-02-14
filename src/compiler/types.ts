@@ -179,6 +179,10 @@ namespace ts {
         QuestionToken,
         ColonToken,
         AtToken,
+
+        // Macros
+        HashToken,
+
         // Assignments
         EqualsToken,
         PlusEqualsToken,

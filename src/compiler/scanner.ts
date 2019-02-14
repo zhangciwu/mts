@@ -1748,6 +1748,10 @@ namespace ts {
                     case CharacterCodes.at:
                         pos++;
                         return token = SyntaxKind.AtToken;
+                    case CharacterCodes.hash:
+                        pos++;
+                        return token = SyntaxKind.HashToken;
+
                     case CharacterCodes.backslash:
                         const cookedChar = peekUnicodeEscape();
                         if (cookedChar >= 0 && isIdentifierStart(cookedChar, languageVersion)) {
