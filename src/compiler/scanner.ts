@@ -1749,6 +1749,9 @@ namespace ts {
                         pos++;
                         return token = SyntaxKind.AtToken;
                     case CharacterCodes.hash:
+                        if (text.charCodeAt(pos + 1) === CharacterCodes.minus) {
+                            return pos += 2, token = SyntaxKind.HashInstructionToken;
+                        }
                         pos++;
                         return token = SyntaxKind.HashToken;
 

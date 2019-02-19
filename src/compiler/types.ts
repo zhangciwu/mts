@@ -182,6 +182,7 @@ namespace ts {
 
         // Macros
         HashToken,
+        HashInstructionToken,
 
         // Assignments
         EqualsToken,
