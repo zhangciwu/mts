@@ -287,6 +287,7 @@ namespace ts {
         TypeParameter,
         Parameter,
         Decorator,
+        HashInstruction,
         // TypeMember
         PropertySignature,
         PropertyDeclaration,
@@ -614,6 +615,7 @@ namespace ts {
         /* @internal */ modifierFlagsCache?: ModifierFlags;
         /* @internal */ transformFlags: TransformFlags;       // Flags for transforms, possibly undefined
         decorators?: NodeArray<Decorator>;                    // Array of decorators (in document order)
+        hashInstructions?: NodeArray<HashInstruction>;
         modifiers?: ModifiersArray;                           // Array of modifiers
         /* @internal */ id?: number;                          // Unique id (used to look up NodeLinks)
         parent: Node;                                         // Parent node (initialized by binding)
@@ -834,6 +836,12 @@ namespace ts {
 
     export interface Decorator extends Node {
         kind: SyntaxKind.Decorator;
+        parent: NamedDeclaration;
+        expression: LeftHandSideExpression;
+    }
+
+    export interface HashInstruction extends Node {
+        kind: SyntaxKind.HashInstruction;
         parent: NamedDeclaration;
         expression: LeftHandSideExpression;
     }
@@ -2735,6 +2743,7 @@ namespace ts {
         /* @internal */ localJsxFactory?: EntityName;
 
         /*@internal*/ exportedModulesFromDeclarationEmit?: ExportedModulesFromDeclarationEmit;
+
     }
 
     /*@internal*/
@@ -3608,6 +3617,7 @@ namespace ts {
         /* @internal */ isReferenced?: SymbolFlags; // True if the symbol is referenced elsewhere. Keeps track of the meaning of a reference in case a symbol is both a type parameter and parameter.
         /* @internal */ isReplaceableByMethod?: boolean; // Can this Javascript class property be replaced by a method symbol?
         /* @internal */ isAssigned?: boolean;   // True if the symbol is a parameter with assignments
+
     }
 
     /* @internal */

@@ -5285,6 +5285,7 @@ namespace ts {
             return lookAhead(nextTokenIsIdentifierOrStartOfDestructuring);
         }
 
+        // the entry of general parsing
         function parseStatement(): Statement {
             switch (token()) {
                 case SyntaxKind.SemicolonToken:
@@ -5331,6 +5332,8 @@ namespace ts {
                     return parseDebuggerStatement();
                 case SyntaxKind.AtToken:
                     return parseDeclaration();
+                case SyntaxKind.HashInstructionToken:
+                    return parseDeclaration();
                 case SyntaxKind.AsyncKeyword:
                 case SyntaxKind.InterfaceKeyword:
                 case SyntaxKind.TypeKeyword:
@@ -5362,6 +5365,7 @@ namespace ts {
 
         function parseDeclaration(): Statement {
             const node = <Statement>createNodeWithJSDoc(SyntaxKind.Unknown);
+            node.hashInstructions = parseHashInstructions();
             node.decorators = parseDecorators();
             node.modifiers = parseModifiers();
             if (some(node.modifiers, isDeclareModifier)) {
@@ -5723,6 +5727,23 @@ namespace ts {
                 decorator.expression = doInDecoratorContext(parseLeftHandSideExpressionOrHigher);
                 finishNode(decorator);
                 (list || (list = [])).push(decorator);
+            }
+            return list && createNodeArray(list, listPos);
+        }
+
+        function parseHashInstructions(): NodeArray<HashInstruction> | undefined {
+            let list: HashInstruction[] | undefined;
+            const listPos = getNodePos();
+            while (true) {
+                const hashInstructionStart = getNodePos();
+                if (!parseOptional(SyntaxKind.HashInstructionToken)) {
+                    break;
+                }
+                const hashInstruction = <HashInstruction>createNode(SyntaxKind.HashInstruction, hashInstructionStart);
+                hashInstruction.expression = parseIdentifier();
+                // context not clear
+                finishNode(hashInstruction);
+                (list || (list = [])).push(hashInstruction);
             }
             return list && createNodeArray(list, listPos);
         }
