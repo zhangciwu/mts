@@ -843,7 +843,7 @@ namespace ts {
     export interface HashInstruction extends Node {
         kind: SyntaxKind.HashInstruction;
         parent: NamedDeclaration;
-        expression: LeftHandSideExpression;
+        instructionName: Identifier;
     }
 
     export interface TypeParameterDeclaration extends NamedDeclaration {

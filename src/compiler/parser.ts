@@ -5740,7 +5740,7 @@ namespace ts {
                     break;
                 }
                 const hashInstruction = <HashInstruction>createNode(SyntaxKind.HashInstruction, hashInstructionStart);
-                hashInstruction.expression = parseIdentifier();
+                hashInstruction.instructionName = parseIdentifier();
                 // context not clear
                 finishNode(hashInstruction);
                 (list || (list = [])).push(hashInstruction);
